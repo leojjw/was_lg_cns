@@ -5,4 +5,4 @@ files:
     destination: /home/ec2-user/web_lg_cns
 hooks:
   ValidateService:
-    - location: scripts/MonitorService.sh
+    - location: scripts/StartServer.sh
