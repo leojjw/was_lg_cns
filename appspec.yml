@@ -3,6 +3,7 @@ os: linux
 files:
   - source: /
     destination: /home/ec2-user/web_lg_cns
+file_exists_behavior: OVERWRITE
 hooks:
   ValidateService:
     - location: scripts/StartServer.sh
