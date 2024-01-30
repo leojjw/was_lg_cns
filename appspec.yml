@@ -2,5 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user
+    destination: /home/ec2-user/web_lg_cns
 hooks:
+  ValidateService:
+    - location: scripts/MonitorService.sh
