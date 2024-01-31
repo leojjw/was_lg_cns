@@ -35,7 +35,7 @@ phases:
     commands:
       - cd ./sbb
       - chmod +x ./gradlew
-      # - ./gradlew bootjar
+      - ./gradlew bootjar
       # - command
   post_build:
     commands:
