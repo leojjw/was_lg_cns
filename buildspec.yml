@@ -1,65 +1,36 @@
 version: 0.2
-
-#env:
-  #variables:
-     # key: "value"
-     # key: "value"
-  #parameter-store:
-     # key: "value"
-     # key: "value"
-  #secrets-manager:
-     # key: secret-id:json-key:version-stage:version-id
-     # key: secret-id:json-key:version-stage:version-id
-  #exported-variables:
-     # - variable
-     # - variable
-  #git-credential-helper: yes
-#batch:
-  #fast-fail: true
-  #build-list:
-  #build-matrix:
-  #build-graph:
+env:
+  variables:
+    AWS_DEFAULT_REGION: "ap-northeast-2"
+    REPOSITORY_URI: "844699844843.dkr.ecr.ap-northeast-2.amazonaws.com/ecr-docker-was"
+    IMAGE_TAG: "latest"
 phases:
-  #install:
-    #runtime-versions:
-      # name: version
-      # name: version
-    #commands:
-      # - command
-      # - command
-  #pre_build:
-    #commands:
-      # - command
-      # - command
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin 844699844843.dkr.ecr.ap-northeast-2.amazonaws.com
+      # - REPOSITORY_URI=012345678910.dkr.ecr.us-west-2.amazonaws.com/hello-world
+      # - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      # - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
+      - echo Building the Spring Project...
       - cd ./sbb
       - chmod +x ./gradlew
       - ./gradlew bootjar
-      # - command
+      - cd ../
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:latest .
+      # - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
-      - echo $(basename ./build/libs/*.jar)
-      - pwd
-      # - ls
-      # - cd ./libs
-      # - ls
-      # - command
-#reports:
-  #report-name-or-arn:
-    #files:
-      # - location
-      # - location
-    #base-directory: location
-    #discard-paths: yes
-    #file-format: JunitXml | CucumberJson
-artifacts:
-  files:
-    - '**/*'
-    # - location
-  #name: $(date +%Y-%m-%d)
-  # discard-paths: yes
-  #base-directory: location
-# cache:
-#   paths:
-#     - './gradle//**/*'
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      # - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Writing image definitions file...
+#       - printf '[{"name":"hello-world","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+# artifacts:
+#     files: imagedefinitions.json
