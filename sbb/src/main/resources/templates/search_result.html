@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Result</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+    <style>
+        body {
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin: 0;
+            display: flex;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%
+        }
+
+        div {
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+  
+        input {
+            width: max-content;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        textarea {
+            position: relative;
+            width: 50%;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        .outer {
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .left {
+            float: left;
+            white-space: nowrap;
+        }
+
+        .right {
+            float: right;
+            white-space: nowrap;
+        }
+
+        .card-text{
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="card my-3" style="width: 50%; margin: 0 auto;" th:each="chatHistoryEntry : ${chatHistoryEntries}">
+        <div class="card-body">
+            <div class="card-text" style="white-space: pre-line;" th:text="${chatHistoryEntry.content}"></div>
+        </div>
+    </div>
+    <form th:action="@{/searchResult}" method="post">
+        <textarea name="content" id="content" placeholder="자유로운 형식으로 영화에 대한 정보를 입력해주세요!" rows=1></textarea>
+        <input type="submit" value="GPT에게 물어보기!" style="background-color: #75ab9d; border-color: #75ab9d;" class="btn btn-primary my-2">
+    </form>
+    <div class="outer">
+        <div class="left"><a class="btn btn-primary my-2" style="color:black; background-color: #caded9; border-color: #caded9; margin-right: 2%;" sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a></div>
+        <div class="right"><a class="btn btn-primary my-2" style="color:black; background-color: #caded9; border-color: #caded9; margin-left: 2%" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a></div>
+    </div>
+    <div class="outer">
+        <a class="btn btn-primary my-2" style="color:black; background-color: #caded9; border-color: #caded9;" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+    </div>
+</body>
+</html>

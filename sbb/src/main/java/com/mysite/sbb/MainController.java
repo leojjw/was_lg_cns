@@ -15,6 +15,11 @@ public class MainController {
 
     @GetMapping("/")
     public String root() {
-        return "redirect:/question/list";
+        return "main_page";
+    }
+
+    @GetMapping("/search")
+    public String search() {
+        return "searching_chat";
     }
 }

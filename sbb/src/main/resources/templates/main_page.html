@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%
+        }
+
+        div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%
+        }
+  
+        input {
+            width: max-content;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        textarea {
+            position: relative;
+            width: 50%;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        .outer {
+            overflow: hidden;
+            width: max-content;
+        }
+
+        .left {
+            float: left;
+            white-space: nowrap;
+        }
+
+        .right {
+            float: right;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>눈치있는 영화 알리미</h1>
+    </div>
+    <div>
+        <a href="https://kr.freepik.com/free-vector/cinema-film-production-realistic-transparent-composition-with-isolated-image-of-clapper-with-empty-fields-vector-illustration_23129998.htm#query=%EC%8A%AC%EB%A0%88%EC%9D%B4%ED%8A%B8&position=0&from_view=keyword&track=sph&uuid=d099b92e-9b82-485e-b17b-a465fcda8609">
+            <img src="images/movie_icon.jpg" height=200vh alt="Movie Icon">
+        </a>
+    </div>
+    <form th:action="@{/searchResult}" method="post">
+        <div>
+            <textarea name="content" id="content" placeholder="자유로운 형식으로 영화에 대한 정보를 입력해주세요!" rows=1></textarea>
+        </div>
+        <input type="submit" value="GPT에게 물어보기!" style="background-color: #75ab9d; border-color: #75ab9d;" class="btn btn-primary my-2">
+    </form>
+    <div class="outer">
+        <div class="left"><a class="btn btn-primary my-2" style="color:black; background-color: #caded9; border-color: #caded9; margin-right: 2%;" sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a></div>
+        <div class="right"><a class="btn btn-primary my-2" style="color:black; background-color: #caded9; border-color: #caded9; margin-left: 2%" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a></div>
+    </div>
+    <div class="outer">
+        <a class="btn btn-primary my-2" style="color:black; background-color: #caded9; border-color: #caded9;" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+    </div>
+    
+</body>
+</html>
